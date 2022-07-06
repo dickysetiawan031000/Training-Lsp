@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\front\DashboardController as FrontDashboardController;
 use App\Models\Buy;
 use App\Models\Customer;
 use App\Models\Product;
@@ -25,12 +27,15 @@ use Illuminate\Support\Facades\Route;
 // dd(Customer::with('buy')->whereId('1')->first());
 
 //Front
+Route::resource('/', FrontDashboardController::class);
+
 
 //Admin
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::resource('/product', ProductController::class);
+    Route::resource('/dashboard', DashboardController::class);
 });
 
 

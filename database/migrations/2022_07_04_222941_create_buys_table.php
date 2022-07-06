@@ -16,7 +16,7 @@ class CreateBuysTable extends Migration
         Schema::create('buys', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id');
-            $table->foreignId('customer_id');
+            $table->foreignId('user_id');
             $table->integer('qty');
             $table->integer('price');
             $table->integer('total');

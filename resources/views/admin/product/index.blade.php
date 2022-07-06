@@ -21,7 +21,7 @@
 <h4 class="mt-3">Data Product</h4>
 <div class="table-responsive col-lg-10 mt-4">
 
-    <a href="{{ route('admin.product.create') }}" class="btn btn-primary mb-3"> Create New Kontrakan</a>
+    <a href="{{ route('admin.product.create') }}" class="btn btn-primary mb-3"> Create New Product</a>
     <table class="table table-striped table-sm">
         <thead>
             <tr>

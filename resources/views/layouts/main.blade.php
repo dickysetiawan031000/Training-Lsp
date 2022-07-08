@@ -27,12 +27,12 @@
 <body>
 
 
-    @include('admin.layouts.header')
+    @include('layouts.header')
 
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2 col-sm-6">
-                @include('admin.layouts.sidebar')
+                @include('layouts.sidebar')
             </div>
 
             <div class="col-md-10 col-sm-6">

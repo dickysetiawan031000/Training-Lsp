@@ -33,32 +33,22 @@
                         class="img-fluid" alt="Sample image">
                 </div>
                 <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                    @if(session()->has('success'))
-
-                    <div class="alert alert-success alert-dismissible fade show col-lg-12 mt-4" role="alert">
-                        <strong>{{ session('success') }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                        <p class="lead fw-normal mb-4 me-3">Sign Up</p>
                     </div>
-                    @endif
-
-                    @if(session()->has('loginError'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        {{ session('loginError') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    @endif
-
-                    <form action="/login" method="post">
+                    <form action="{{ route('register.store') }}" method="post">
                         @csrf
-                        <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                            <p class="lead fw-normal mb-4 me-3">Sign in</p>
-                        </div>
-
-                        <!-- username input -->
+                        <!-- email input -->
                         <div class="form-floating mb-4">
                             <input type="text" id="username" name="email" class="form-control form-control-lg"
                                 placeholder="Enter a valid email address" />
                             <label class="form-label" for="username">Email address</label>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <input type="text" id="name" name="name" class="form-control form-control-lg"
+                                placeholder="Enter a valid email address" />
+                            <label class="form-label" for="name">Full Name</label>
                         </div>
 
                         <!-- Password input -->
@@ -68,12 +58,25 @@
                             <label class="form-label" for="password">Password</label>
                         </div>
 
+                        <div class="form-floating mb-4">
+                            <input type="text" id="phone_number" name="phone_number"
+                                class="form-control form-control-lg" placeholder="Enter a valid email address" />
+                            <label class="form-label" for="phone_number">Phone Number</label>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <input type="text" id="address" name="address" class="form-control form-control-lg"
+                                placeholder="Enter a valid email address" />
+                            <label class="form-label" for="address">Address</label>
+                        </div>
+
                         <div class="text-center text-lg-start mt-4 pt-2">
                             <button type="submit" class="btn btn-primary btn-lg"
-                                style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-                            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a
-                                    href="{{ route('register.index') }}"
-                                    class="link-danger text-decoration-none">Register</a></p>
+                                style="padding-left: 2.5rem; padding-right: 2.5rem;">Register</button>
+
+                            <p class="small fw-bold mt-2 pt-1 mb-0">Have an account?
+                                <a href="/login" class="link-danger text-decoration-none">Login</a>
+                            </p>
                         </div>
 
                     </form>

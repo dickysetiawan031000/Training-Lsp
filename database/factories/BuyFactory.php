@@ -18,7 +18,9 @@ class BuyFactory extends Factory
             'user_id' => mt_rand(1, 5),
             'qty' => mt_rand(5, 10),
             'price' => $this->faker->numberBetween(15000, 60000),
-            'total' => $this->faker->numberBetween(100000, 200000)
+            'total' => $this->faker->numberBetween(100000, 200000),
+            'status' => $this->faker->randomElement(['accepted', 'rejected']),
+
         ];
     }
 }

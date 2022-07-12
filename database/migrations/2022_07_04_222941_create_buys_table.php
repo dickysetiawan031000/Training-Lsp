@@ -20,6 +20,7 @@ class CreateBuysTable extends Migration
             $table->integer('qty');
             $table->integer('price');
             $table->integer('total');
+            $table->string('status');
             $table->timestamps();
         });
     }

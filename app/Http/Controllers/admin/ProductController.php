@@ -41,7 +41,8 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             'name' => ['required'],
             'price' => ['required'],
-            'desc' => ['required']
+            'desc' => ['required'],
+            'stock' => ['required']
         ]);
 
         Product::create($validatedData);
@@ -66,9 +67,11 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        return view('admin.product.edit', [
+            'product' => $product
+        ]);
     }
 
     /**
@@ -78,9 +81,19 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        $rules = [
+            'name' => ['required', 'max:255'],
+            'price' => ['required', 'max:20'],
+            'desc' => ['required', 'max:255'],
+            'stock' => ['required', 'max:255']
+        ];
+
+        $validateData = $request->validate($rules);
+        Product::where('id', $product->id)
+            ->update($validateData);
+        return redirect()->route('admin.product.index')->with('success', 'Product updated successfully!');
     }
 
     /**

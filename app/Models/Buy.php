@@ -11,10 +11,11 @@ class Buy extends Model
 
     protected $fillable = [
         'product_id',
-        'customer_id',
+        'user_id',
         'qty',
         'price',
         'total',
+        'status'
     ];
 
     /**

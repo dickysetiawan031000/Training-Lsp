@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Buy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -14,7 +16,11 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('customer.index');
+        $orderCount = Buy::where('user_id', Auth::user()->id)->count();
+
+        return view('customer.index', compact([
+            'orderCount'
+        ]));
     }
 
     /**

@@ -22,6 +22,12 @@
 
     <!-- Custom styles for this template -->
     <link href="/css/sidebars.css" rel="stylesheet">
+
+    {{-- Data Tables --}}
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/bs5/dt-1.12.1/b-2.2.3/b-html5-2.2.3/datatables.min.css" />
+
+
 </head>
 
 <body>
@@ -46,9 +52,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script>
-
-
     <script src="/js/sidebar.js"></script>
+
+    @stack('js')
 </body>
 
 </html>

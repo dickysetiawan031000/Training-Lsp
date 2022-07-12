@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\admin\BuyController as AdminBuyController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\RegisterController;
+use App\Http\Controllers\customer\BuyController;
 use App\Http\Controllers\customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\front\DashboardController as FrontDashboardController;
 use App\Models\Buy;
@@ -45,6 +47,10 @@ Route::group(
 
             Route::resource('/product', ProductController::class);
             Route::resource('/dashboard', DashboardController::class);
+            Route::resource('/buy', AdminBuyController::class);
+            // Route::get('/buy/status/{id}', AdminBuyController::class, 'status');
+            Route::get('buy/accepted/{id}/{product}', [AdminBuyController::class, 'accepted']);
+            Route::get('buy/rejected/{id}/{product}', [AdminBuyController::class, 'rejected']);
         });
     }
 );
@@ -56,6 +62,7 @@ Route::group(
 
         Route::prefix('customer')->name('customer.')->group(function () {
             Route::resource('/dashboard', CustomerDashboardController::class);
+            Route::resource('/buy', BuyController::class);
         });
     }
 );

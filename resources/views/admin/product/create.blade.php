@@ -1,4 +1,4 @@
-@extends('admin.layouts.main')
+@extends('layouts.main')
 
 @section('container')
 
@@ -10,6 +10,10 @@
     <div class="form-floating mb-3">
         <input type="text" name="name" class="form-control" id="name" placeholder="Product Name">
         <label for="name">Product Name</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="number" class="form-control" name="stock" id="stock" placeholder="Stock">
+        <label for="stock">Stock</label>
     </div>
     <div class="form-floating mb-3">
         <input type="number" class="form-control" name="price" id="price" placeholder="Price">

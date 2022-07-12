@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Buy;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -14,7 +16,15 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
+        $income = Buy::where('status', 'accepted')->get()->sum('total');
+
+        $productCount = Product::count();
+        $orderCount = Buy::count();
+        return view('admin.index', compact([
+            'productCount',
+            'orderCount',
+            'income'
+        ]));
     }
 
     /**

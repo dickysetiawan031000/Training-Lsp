@@ -8,6 +8,9 @@ use App\Models\Product;
 use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
+
 
 class BuyController extends Controller
 {
@@ -20,8 +23,28 @@ class BuyController extends Controller
     {
         // dd(Buy::with('product')->get());
         return view('customer.buy.index', [
-            'buys' => Buy::with('product')->where('user_id', Auth::user()->id)->get()
+            'buys' => Buy::with('product')->where('user_id', Auth::user()->id)->paginate(8)
         ]);
+    }
+
+    public function getData()
+    {
+        // $query = Buy::query();
+        $query = DB::table('buys')
+            ->select('buys.*', 'products.name')
+            ->join('products', 'buys.product_id', '=', 'products.id')
+            ->where('buys.user_id', '=', Auth::user()->id);
+
+        return DataTables::of($query)
+            ->addColumn('aksi', function ($buy) {
+                $buy = [
+                    'id' => $buy->id
+                ];
+                return view('customer.buy.action')->with('buy', $buy);
+            })
+            ->addIndexColumn()
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
     /**
@@ -61,7 +84,7 @@ class BuyController extends Controller
             'qty' => $validatedData['qty'],
             'price' => $price,
             'total' => $total,
-            'status' => 'rejected'
+            'status' => 'order'
         ]);
 
         return redirect()->route('customer.buy.index')->with('success', 'Your order has been submitted successfully!');
@@ -73,9 +96,11 @@ class BuyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Buy $buy)
     {
-        //
+        return view('customer.buy.show', [
+            'buy' => $buy
+        ]);
     }
 
     /**

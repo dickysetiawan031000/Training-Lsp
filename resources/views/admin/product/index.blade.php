@@ -21,7 +21,7 @@
 <h4 class="mt-3">Data Product</h4>
 <div class="table-responsive col-lg-10 mt-4">
     <a href="{{ route('admin.product.create') }}" class="btn btn-primary mb-3"> Create New Product</a>
-    <table id="myTable" class="table table-striped table-sm">
+    <table id="datatable" class="table table-striped table-sm" width="100%">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -32,41 +32,53 @@
                 <th scope="col">Action</th>
             </tr>
         </thead>
-        <tbody>
-            @foreach($products as $product)
-
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $product->name }}</td>
-                <td>{{ $product->price }}</td>
-                <td>{{ $product->stock }}</td>
-                <td>{{ $product->desc }}</td>
-                <td>
-                    <a href="{{ route('admin.product.edit', $product->id) }}" class="badge bg-warning"><i
-                            class="bi bi-pencil-square"></i></a>
-                    <form action=" {{ route('admin.product.destroy', $product->id) }} " method="post" class="d-inline">
-                        @csrf
-                        @method('delete')
-
-                        <button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><i
-                                class="bi bi-trash2-fill"></i></button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
     </table>
 </div>
+<form action="" method="post" id="deleteForm">
+    @csrf
+    @method("DELETE")
+    <input type="submit" value="Hapus" style="display: none">
+</form>
 @endsection
 
 @push('js')
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.12.1/b-2.2.3/b-html5-2.2.3/datatables.min.js">
-</script>
 <script>
-    $(document).ready( function () {
-        $('#myTable').DataTable();
-        } );
+    // AJAX DataTable
+    var datatable = $('#datatable').DataTable({
+        processing: true,
+        serverSide: true,
+        ordering: true,
+        scrollX: true,
+        ajax: {
+            url: '{{ route('admin.data.product') }}',
+        },
+        dom: "Bfrtip",
+        columns: [{
+                data: 'DT_RowIndex',
+                orderable: false,
+                searchable : false
+            },
+            {
+                data: 'name',
+                name: 'name'
+            },
+            {
+                data: 'price',
+                name: 'price'
+            },
+            {
+                data: 'stock',
+                name: 'stock'
+            },
+            {
+                data: 'desc',
+                name: 'desc'
+            },
+            {
+                data: 'aksi',
+                name: 'aksi'
+            }
+        ]
+    });
 </script>
 @endpush

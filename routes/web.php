@@ -51,6 +51,9 @@ Route::group(
             // Route::get('/buy/status/{id}', AdminBuyController::class, 'status');
             Route::get('buy/accepted/{id}/{product}', [AdminBuyController::class, 'accepted']);
             Route::get('buy/rejected/{id}/{product}', [AdminBuyController::class, 'rejected']);
+
+            Route::get('/data/product', [ProductController::class, 'getData'])->name('data.product');
+            Route::get('/data/buy', [AdminBuyController::class, 'getData'])->name('data.buy');
         });
     }
 );
@@ -63,6 +66,8 @@ Route::group(
         Route::prefix('customer')->name('customer.')->group(function () {
             Route::resource('/dashboard', CustomerDashboardController::class);
             Route::resource('/buy', BuyController::class);
+            // Route::resource('/buy/{buy}', BuyController::class);
+            Route::get('/data/buy', [BuyController::class, 'getData'])->name('data.buy');
         });
     }
 );

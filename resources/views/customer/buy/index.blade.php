@@ -40,18 +40,17 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $buy->product->name }}</td>
-                <td>{{ $buy->price }}</td>
+                <td>{{ \App\Utilities\Helpers::formatCurrency($buy->product->price, 'Rp.') }}</td>
                 <td>{{ $buy->qty }}</td>
-                <td>{{ $buy->qty * $buy->price }}</td>
+                <td>{{ \App\Utilities\Helpers::formatCurrency($buy->qty * $buy->price, 'Rp.') }}</td>
 
                 @if($buy->status == 'accepted')
                 <td><span class="badge bg-success">{{ $buy->status }}</span></td>
-                @else
-                <td><span class="badge bg-danger">{{ $buy->status }}</span></td>
-                @endif
+                <td><a href="{{ route('customer.buy.show', $buy->id) }}" class="badge bg-info"><i
+                            class="bi bi-receipt"></i></a></td>
+                @elseif($buy->status == 'order')
+                <td><span class="badge bg-warning">{{ $buy->status }}</span></td>
                 <td>
-                    {{-- <a href="{{ route('customer.buy.edit', [$buy->id, $buy->product_id]) }}"
-                        class="badge bg-warning"><i class="bi bi-pencil-square"></i></a> --}}
                     <form action=" {{ route('customer.buy.destroy', $buy->id) }} " method="post" class="d-inline">
                         @csrf
                         @method('delete')
@@ -60,9 +59,71 @@
                                 class="bi bi-trash2-fill"></i></button>
                     </form>
                 </td>
+                @else
+                <td><span class="badge bg-danger">{{ $buy->status }}</span></td>
+                <td>
+                    <form action=" {{ route('customer.buy.destroy', $buy->id) }} " method="post" class="d-inline">
+                        @csrf
+                        @method('delete')
+
+                        <button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><i
+                                class="bi bi-trash2-fill"></i></button>
+                    </form>
+                </td>
+                @endif
+
+
+
             </tr>
             @endforeach
         </tbody>
     </table>
+    {{ $buys->links() }}
 </div>
 @endsection
+
+{{-- @push('js')
+<script>
+    // AJAX DataTable
+    var datatable = $('#datatable').DataTable({
+        processing: true,
+        serverSide: true,
+        ordering: true,
+        scrollX: true,
+        ajax: {
+            url: '{{ route('admin.data.buy') }}',
+        },
+        dom: "Bfrtip",
+        columns: [{
+                data: 'DT_RowIndex',
+                orderable: false,
+                searchable : false
+            },
+            {
+                data: 'name',
+                name: 'name'
+            },
+            {
+                data: 'price',
+                name: 'price'
+            },
+            {
+                data: 'qty',
+                name: 'qty'
+            },
+            {
+                data: 'total',
+                name: 'total'
+            },
+            {
+                data: 'status',
+                name: 'status'
+            },
+            {
+                data: 'aksi',
+                name: 'aksi'
+            }
+        ]
+    });
+</script>
+@endpush --}}

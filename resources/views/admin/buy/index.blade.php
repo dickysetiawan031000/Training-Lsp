@@ -44,7 +44,7 @@
 
 <h4 class="mt-3">Data Order</h4>
 <div class="table-responsive col-lg-10 mt-4">
-    <table id="table1" class="table table-striped text-center">
+    <table id="table1" class="table table-striped text-center" width="100%">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -72,6 +72,8 @@
 
                 @if($buy->status == 'accepted')
                 <td><span class="badge bg-success">{{ $buy->status }}</span></td>
+                @elseif($buy->status == 'order')
+                <td><span class="badge bg-warning">{{ $buy->status }}</span></td>
                 @else
                 <td><span class="badge bg-danger">{{ $buy->status }}</span></td>
                 @endif
@@ -90,46 +92,70 @@
             @endforeach
         </tbody>
 
+
+
     </table>
+    {{ $buys->links() }}
 </div>
+
 @endsection
 
-@push('s')
+{{-- @push('js') --}}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+--}}
 
+{{-- @push('js')
 <script>
-    $(document).ready(function(){
-        isi()
-    })
-
-    function isi(){
-        $('#table1').DataTable({
-            serverside : true,
-            responseive : true,
-            ajax : {
-                url : "{{ route('admin.buy.index') }}"
+    AJAX DataTable
+    var datatable = $('#table1').DataTable({
+        processing: true,
+        serverSide: true,
+        ordering: true,
+        scrollX: true,
+        ajax: {
+            url: '{{ route('admin.data.buy') }}',
+        },
+        dom: "Bfrtip",
+        columns: [{
+                data: 'DT_RowIndex',
+                orderable: false,
+                searchable : false
             },
-            columns : [
-                {
-                    "data" : null, "sortable" : false,
-                    render : function(data, type, row, meta){
-                        return meta.row + meta.settings._iDisplayStart + 1
-                    }
-                },
-                {data : 'user->name', name: 'customer'},
-                {data : 'product', name: 'product'},
-                {data : 'price', name: 'price'},
-                {data : 'qty', name: 'qty'},
-                {data : 'stock', name: 'stock'},
-                {data : 'totalprice', name: 'totalprice'},
-                {data : 'status', name: 'status'},
-                {data : 'action', name: 'action'},
-            ]
-        })
-    }
-
+            {
+                data: 'name',
+                name: 'users.name'
+            },
+            {
+                data: 'namep',
+                name: 'products.namep'
+            },
+            {
+                data: 'price',
+                name: 'price'
+            },
+            {
+                data: 'qty',
+                name: 'qty'
+            },
+            {
+                data: 'stock',
+                name: 'products.stock'
+            },
+            {
+                data: 'total_price',
+                name: 'total_price'
+            },
+            {
+                data: 'status',
+                name: 'status'
+            },
+            {
+                data: 'aksi',
+                name: 'aksi'
+            }
+        ]
+    });
 </script>
-
-@endpush
+@endpush --}}

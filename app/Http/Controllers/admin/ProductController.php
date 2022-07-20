@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class ProductController extends Controller
 {
@@ -18,6 +19,22 @@ class ProductController extends Controller
         return view('admin.product.index', [
             'products' => Product::get()
         ]);
+    }
+
+    public function getData()
+    {
+        $query = Product::query();
+
+        return DataTables::of($query)
+            ->addColumn('aksi', function ($product) {
+                $product = [
+                    'id' => $product->id
+                ];
+                return view('admin.product.action')->with('product', $product);
+            })
+            ->addIndexColumn()
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
     /**

@@ -7,6 +7,8 @@ use App\Models\Buy;
 use App\Models\Product;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class BuyController extends Controller
 {
@@ -19,9 +21,53 @@ class BuyController extends Controller
     {
 
         return view('admin.buy.index', [
-            'buys' => Buy::with('product')->get()
+            'buys' => Buy::with('product')->paginate(8)
         ]);
     }
+
+    // public function getData()
+    // {
+    //     $query = DB::table('buys')
+    //         ->select('buys.*', 'products.namep', 'products.stock', 'users.name')
+    //         ->join('products', 'buys.product_id', '=', 'products.id')
+    //         ->join('users', 'buys.user_id', '=', 'users.id');
+
+    // $query = Buy::with(['user', 'product']);
+
+    // return DataTables::of($query)
+    //     ->addColumn('aksi', function ($buy) {
+    //         $buy = [
+    //             'id' => $buy->id,
+    //             'product_id' => $buy->product_id,
+    //         ];
+    //         return view('admin.buy.action')->with('buy', $buy);
+    //     })
+    // ->editColumn('customer', function ($buy) {
+    //     return $buy->user->name;
+    // })
+    // ->editColumn('product_name', function ($buy) {
+    //     return $buy->product->name;
+    // })
+    // ->editColumn('stock', function ($buy) {
+    //     return $buy->product->stock;
+    // })
+    //         ->editColumn('price', function ($buy) {
+    //             return \App\Utilities\Helpers::formatCurrency($buy->price, 'Rp.');
+    //         })
+    //         ->editColumn('total_price', function ($buy) {
+    //             return \App\Utilities\Helpers::formatCurrency($buy->qty * $buy->price, 'Rp.');
+    //         })
+    //         ->editColumn('accepted', function ($buy) {
+    //             if ($buy->status == 'accepted') {
+    //                 return `<td><span class=badge bg-success">{{ $buy->status }}</span></td>`;
+    //             } else {
+    //                 return `<td><span class="badge bg-danger">{{ $buy->status }}</span></td>`;
+    //             }
+    //         })
+    //         ->addIndexColumn()
+    //         ->rawColumns(['aksi'])
+    //         ->make(true);
+    // }
 
     public function accepted($id, $product)
     {
@@ -32,7 +78,7 @@ class BuyController extends Controller
 
         // dd();
 
-        if ($status->status == 'rejected' && $stock->stock > $buy->qty) {
+        if ($status->status == 'order' || $status->status == 'rejected' && $stock->stock > $buy->qty) {
 
             $updateStock = $stock->stock - $buy->qty;
 

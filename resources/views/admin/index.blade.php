@@ -15,14 +15,14 @@
                 <p>Total Order</p>
                 <h2>{{ $orderCount }}</h2>
                 <p class="text-end"><a href="{{ route('admin.buy.index') }}" class=""><i
-                            class="bi bi-arrow-right"></i></a>
+                            class="bi bi-arrow-right text-black"></i></a>
                 </p>
             </div>
             <div class="col-lg-4 col-8 " style="background-color:antiquewhite">
                 <p>Total Product</p>
                 <h2>{{ $productCount }}</h2>
                 <p class="text-end"><a href="{{ route('admin.product.index') }}" class=""><i
-                            class="bi bi-arrow-right"></i></a>
+                            class="bi bi-arrow-right text-black"></i></a>
                 </p>
             </div>
         </div>

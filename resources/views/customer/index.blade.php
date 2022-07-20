@@ -11,7 +11,7 @@
                 <p>Total Order</p>
                 <h2>{{ $orderCount }}</h2>
                 <p class="text-end"><a href="{{ route('customer.buy.index') }}" class=""><i
-                            class="bi bi-arrow-right"></i></a>
+                            class="bi bi-arrow-right text-black"></i></a>
                 </p>
             </div>
 
